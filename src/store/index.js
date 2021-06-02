@@ -16,15 +16,18 @@ export default createStore({
     viewModal: false
   },
   mutations: {
-    setViewModal(state, value) {
-      console.log(value)
-      state.viewModal = value
-    },
     setPokemon(state, payload) {
       state.pokemom = payload
     },
     setPokemones(state, payload) {
       state.pokemones = payload
+    },
+    setPokemonFav(state) {
+      state.pokemon.isFav = !state.pokemon.isFav
+    },
+    setPokemonItemFav(state, item){
+      let objIndex = state.pokemonesFiltrados.findIndex((i => i.name === item.name));
+      state.pokemonesFiltrados[objIndex].isFav = item.isFav
     },
     setPokemonesFavs(state, payload) {
       state.pokemonesFavs = payload
@@ -44,7 +47,6 @@ export default createStore({
         state.pokemon.weight = data.weight
         state.pokemon.height = data.height
         state.pokemon.types = data.types.map(item => item.type.name).toString()
-        console.log(JSON.stringify(state.pokemon))
         commit('setPokemon', state.pokemon)
       } catch (error) {
         console.log(error)
@@ -63,6 +65,11 @@ export default createStore({
       } catch (error) {
         console.log(error)
       }
+    },
+    setPokemonFav({ commit, state }) {
+      commit('setPokemonFav', !state.pokemon.isFav)
+      commit('setPokemonItemFav', state.pokemon)
+      commit('setPokemonesFiltrados', state.pokemonesFiltrados)
     },
     filterFavs({ commit, state }) {
       const res = state.pokemones.filter(pokemon =>
@@ -92,9 +99,6 @@ export default createStore({
     },
     itemPokemon(state) {
       return state.pokemon
-    },
-    viewModal(state){
-      return state.viewModal
     }
   },
   modules: {

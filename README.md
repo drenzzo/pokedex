@@ -17,3 +17,8 @@ npm run build
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+### Tecnologias usadas
+Vue 3, Vuex, Bootstrap y JQuery.
+Adicionalmente use vue-cli para la generación del proyecto.
+

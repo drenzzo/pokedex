@@ -33,13 +33,15 @@
           class="btn btn-danger btn-pokemon mr-1">Share to my friends</button>
         <button
           @click="setFav"
-          class="btn btn-circle btn-secondary ml-1"><i class="fa fa-star"></i></button>
+          class="btn btn-circle btn-secondary ml-1"><i class="fa fa-star" :class="[pokemon.isFav ? ' fa-yellow' : ' fa-white']"></i></button>
       </p>
     </div>
   </div>
 </template>
 
 <script>
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 export default {
   props: ['pokemon'],
   methods: {
@@ -54,10 +56,14 @@ export default {
       el.select()
       document.execCommand('copy')
       document.body.removeChild(el)
-    },
-    setFav() {
-      return !this.pokemon.isFav
     }
+  },
+  setup(){
+    const store = useStore()
+    const setFav = (() => {
+      store.dispatch('setPokemonFav')
+    })
+    return {setFav}
   }
 }
 </script>
